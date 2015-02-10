@@ -1069,8 +1069,10 @@ static void mxt_report_input_data(struct mxt_data *data)
 			input_sync(data->input_dev);
 	}
 
+#ifdef CONFIG_SEC_DVFS
 #if TSP_BOOSTER
 	mxt_set_dvfs_lock(data, count);
+#endif
 #endif
 
 	data->finger_mask = 0;
@@ -2339,10 +2341,11 @@ static int mxt_stop(struct mxt_data *data)
 #if ENABLE_TOUCH_KEY
 	mxt_release_all_keys(data);
 #endif
+#ifdef CONFIG_SEC_DVFS
 #if TSP_BOOSTER
 	mxt_set_dvfs_lock(data, -1);
 #endif
-
+#endif
 	data->mxt_enabled = false;
 
 	return 0;
@@ -2492,11 +2495,13 @@ static int mxt_touch_finish_init(struct mxt_data *data)
 		goto err_req_irq;
 	}
 
+#ifdef CONFIG_SEC_DVFS
 #if TSP_BOOSTER
 	mxt_init_dvfs(data);
 #endif
 #if MXT_TKEY_BOOSTER
 	mxt_tkey_init_dvfs(data);
+#endif
 #endif
 
 	dev_info(&client->dev,  "Mxt touch controller initialized\n");
