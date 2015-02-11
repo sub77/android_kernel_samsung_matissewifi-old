@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
+ * Copyright (c) 2012-2014 The Linux Foundation. All rights reserved.
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -18,25 +18,11 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
  * PERFORMANCE OF THIS SOFTWARE.
  */
+
 /*
- * Copyright (c) 2012, The Linux Foundation. All rights reserved.
- *
- * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
- *
- *
- * Permission to use, copy, modify, and/or distribute this software for
- * any purpose with or without fee is hereby granted, provided that the
- * above copyright notice and this permission notice appear in all
- * copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL
- * WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE
- * AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL
- * DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR
- * PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
- * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
- * PERFORMANCE OF THIS SOFTWARE.
+ * This file was originally distributed by Qualcomm Atheros, Inc.
+ * under proprietary terms before Copyright ownership was assigned
+ * to the Linux Foundation.
  */
 
 #ifndef __WEXT_IW_H__
@@ -80,6 +66,8 @@
 #define WLAN_HDD_UI_BAND_AUTO                          0
 #define WLAN_HDD_UI_BAND_5_GHZ                         1
 #define WLAN_HDD_UI_BAND_2_4_GHZ                       2
+/* SETBAND x */
+/* 012345678 */
 #define WLAN_HDD_UI_SET_BAND_VALUE_OFFSET              8
 
 typedef enum
@@ -234,6 +222,9 @@ typedef enum
 #define HS20_OUI_TYPE   "\x50\x6f\x9a\x10"
 #define HS20_OUI_TYPE_SIZE  4
 
+#define OSEN_OUI_TYPE   "\x50\x6f\x9a\x12"
+#define OSEN_OUI_TYPE_SIZE  4
+
 #ifdef WLAN_FEATURE_WFD
 #define WFD_OUI_TYPE   "\x50\x6f\x9a\x0a"
 #define WFD_OUI_TYPE_SIZE  4
@@ -308,9 +299,9 @@ typedef struct hdd_wext_state_s
    v_U32_t oemDataReqID;
 #endif
 
-#ifdef FEATURE_WLAN_CCX
-   /* CCX state variables */
-   v_BOOL_t isCCXConnection;
+#ifdef FEATURE_WLAN_ESE
+   /* ESE state variables */
+   v_BOOL_t isESEConnection;
    eCsrAuthType collectedAuthType; /* Collected from ALL SIOCSIWAUTH Ioctls. Will be negotiatedAuthType - in tCsrProfile */
 #endif
 }hdd_wext_state_t;
@@ -393,6 +384,11 @@ extern int iw_set_var_ints_getnone(struct net_device *dev, struct iw_request_inf
 extern int iw_set_three_ints_getnone(struct net_device *dev, struct iw_request_info *info,
                        union iwreq_data *wrqu, char *extra);
 
+extern int hdd_priv_get_data(struct iw_point *p_priv_data,
+                             union iwreq_data *wrqu);
+
+extern void *mem_alloc_copy_from_user_helper(const void *wrqu_data, size_t len);
+
 void hdd_clearRoamProfileIe( hdd_adapter_t *pAdapter);
 void hdd_GetClassA_statisticsCB(void *pStats, void *pContext);
 
@@ -421,7 +417,7 @@ void hdd_wmm_tx_snapshot(hdd_adapter_t *pAdapter);
 #ifdef FEATURE_WLAN_TDLS
 VOS_STATUS iw_set_tdls_params(struct net_device *dev, struct iw_request_info *info, union iwreq_data *wrqu, char *extra, int nOffset);
 #endif
-#if defined WLAN_FEATURE_VOWIFI_11R || defined FEATURE_WLAN_CCX || defined(FEATURE_WLAN_LFR)
+#if defined WLAN_FEATURE_VOWIFI_11R || defined FEATURE_WLAN_ESE || defined(FEATURE_WLAN_LFR)
 VOS_STATUS wlan_hdd_get_roam_rssi(hdd_adapter_t *pAdapter, v_S7_t *rssi_value);
 #endif
 
@@ -429,6 +425,9 @@ VOS_STATUS wlan_hdd_get_roam_rssi(hdd_adapter_t *pAdapter, v_S7_t *rssi_value);
 void wlan_hdd_set_mc_addr_list(hdd_adapter_t *pAdapter, v_U8_t set);
 #endif
 void* wlan_hdd_change_country_code_callback(void *pAdapter);
+
+int hdd_setBand(struct net_device *dev, u8 ui_band);
+int hdd_setBand_helper(struct net_device *dev, const char *command);
 
 #endif // __WEXT_IW_H__
 
