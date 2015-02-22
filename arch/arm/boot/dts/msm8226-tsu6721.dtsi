@@ -11,24 +11,24 @@
  */
 
 /{
-	i2c@15{
-		cell-index = <15>;
-		compatible = "i2c-gpio";
-		gpios = <&msmgpio 4 0  /*SDA*/
-			&msmgpio 5 0  /*SCL*/
-			>;
-		i2c-gpio,delay-us = <2>;
-		#address-cells = <1>;
-		#size-cells = <0>;
-		tsu6721@25{
-			compatible = "tsu6721,i2c";
-			reg = <0x25>;
-			interrupt-parent = <&msmgpio>;
-			interrupts= <52 0>;
-			tsu6721,irq-gpio = <&msmgpio 52 0x00>;
-			tsu6721,gpio-sda = <&msmgpio 4 0x00>;
-			tsu6721,gpio-scl = <&msmgpio 5 0x00>;
-			tsu6721,uarton-gpio = <&msmgpio 109 0x00>;
+	i2c@15{ /*SM5502 Chip node (similar to tsu7621 muic)*/
+                cell-index = <15>;
+                compatible = "i2c-gpio";
+                gpios = <&msmgpio 14 0  /*SDA*/
+                        &msmgpio 15 0  /*SCL*/
+                        >;
+                i2c-gpio,delay-us = <2>;
+                #address-cells = <1>;
+                #size-cells = <0>;
+                sm5502@25{
+                        compatible = "sm5502,i2c";
+                        reg = <0x25>;
+                        interrupt-parent = <&msmgpio>;
+                        interrupts= <67 0>;
+                        sm5502,irq-gpio = <&msmgpio 67 0x00>;
+                        sm5502,gpio-sda = <&msmgpio 14 0x00>;
+                        sm5502,gpio-scl = <&msmgpio 15 0x00>;
+                        sm5502,uarton-gpio = <&msmgpio 109 0x00>;
 		};
 	};
 };
