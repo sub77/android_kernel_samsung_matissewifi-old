@@ -11,7 +11,7 @@
  */
 
 /include/ "msm8226-camera-sensor-mtp-matisse_eur-r02.dtsi"
-/include/ "dsi_panel_tc358764_wxga_video_lte.dtsi"
+/include/ "dsi_panel_sharp_720p_video.dtsi"
 
 &soc {
 	serial@f991f000 {
@@ -723,9 +723,9 @@
 };
 
 &mdss_dsi0 {
-	qcom,dsi-pref-prim-pan = <&dsi2lvds_wxga_vid_lte>;
+	qcom,dsi-pref-prim-pan = <&dsi_sharp_hd_vid>;
 };
 
-&dsi2lvds_wxga_vid_lte {
+&dsi_sharp_hd_vid {
 	qcom,cont-splash-enabled;
 };
