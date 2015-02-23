@@ -748,7 +748,7 @@
 };
 
 &mdss_dsi0 {
-	qcom,dsi-pref-prim-pan = <&dsi_sharp_hd_vid_r01>;
+	qcom,dsi-pref-prim-pan = <&dsi_sharp_hd_vid>;
 };
 
 &dsi_sharp_hd_vid {
