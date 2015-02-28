@@ -93,24 +93,23 @@ static struct gpiomux_setting nc_cfg = {
 };
 #endif
 
-/*#if defined(CONFIG_MACH_MATISSEWIFI_OPEN) || defined(CONFIG_MACH_MATISSELTE_OPEN) || \
-*	defined(CONFIG_MACH_MATISSEWIFIUS_OPEN)
-*#define MAKE_NC_CONFIG_INIT_SLEEP(gpio_num) { \
-*		.gpio = gpio_num, \
-*		.settings ={ \
-*			[GPIOMUX_ACTIVE] = &nc_cfg_gpios,\
-*			[GPIOMUX_SUSPENDED] = &nc_cfg_gpios,\
-*		}\
-*}
-*
-*static struct gpiomux_setting nc_cfg_gpios = {
-*	.func = GPIOMUX_FUNC_GPIO,
-*	.drv = GPIOMUX_DRV_2MA,
-*	.pull = GPIOMUX_PULL_DOWN,
-*	.dir = GPIOMUX_IN,
-*};
-*
-#endif*/
+#if defined(CONFIG_MACH_MATISSEWIFI_OPEN) || defined(CONFIG_MACH_MATISSELTE_OPEN) || \
+	defined(CONFIG_MACH_MATISSEWIFIUS_OPEN)
+#define MAKE_NC_CONFIG_INIT_SLEEP(gpio_num) { \
+		.gpio = gpio_num, \
+		.settings ={ \
+			[GPIOMUX_ACTIVE] = &nc_cfg_gpios,\
+			[GPIOMUX_SUSPENDED] = &nc_cfg_gpios,\
+		}\
+}
+static struct gpiomux_setting nc_cfg_gpios = {
+	.func = GPIOMUX_FUNC_GPIO,
+	.drv = GPIOMUX_DRV_2MA,
+	.pull = GPIOMUX_PULL_DOWN,
+	.dir = GPIOMUX_IN,
+};
+
+#endif
 #if defined(CONFIG_MACH_MATISSEWIFI_OPEN)
 static struct msm_gpiomux_config matissewifi_open_nc_gpio_cfgs[] __initdata = {
 	MAKE_NC_CONFIG_INIT_SLEEP(0),
