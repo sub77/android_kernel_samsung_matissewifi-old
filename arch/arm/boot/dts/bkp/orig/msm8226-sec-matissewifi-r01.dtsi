@@ -12,7 +12,7 @@
 
 /include/ "msm8226-camera-sensor-mtp-matisse_eur-r02.dtsi"
 /include/ "msm8226-mc96irda.dtsi"
-/include/ "dsi_panel_sharp_720p_video-r01.dtsi"
+/include/ "dsi_panel_tc358764_wxga_video-r01.dtsi"
 
 &soc {
 	serial@f991f000 {
@@ -355,7 +355,6 @@
 			status = "disable";
 			/* Charger */
 			battery,charger_name = "smb358";
-			battery,vbus_ctrl_gpio = <&msmgpio 64 0x00>;
 			battery,chg_gpio_en = <0>;
 			battery,chg_polarity_en = <0>;
 			battery,chg_gpio_status = <0>;
@@ -707,9 +706,9 @@
 };
 
 &mdss_dsi0 {
-	qcom,dsi-pref-prim-pan = <&dsi_sharp_hd_vid>;
+	qcom,dsi-pref-prim-pan = <&dsi2lvds_wxga_vid_r01>;
 };
 
-&dsi_sharp_hd_vid {
+&dsi2lvds_wxga_vid_r01 {
 	qcom,cont-splash-enabled;
 };
