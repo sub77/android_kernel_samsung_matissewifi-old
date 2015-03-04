@@ -12,7 +12,7 @@
 
 /include/ "msm8226-camera-sensor-mtp-matisse_eur-r02.dtsi"
 /include/ "msm8226-mc96irda.dtsi"
-/include/ "dsi_panel_tc358764_wxga_video.dtsi"
+/include/ "dsi_panel.dtsi"
 
 &soc {
 	serial@f991f000 {
@@ -89,6 +89,7 @@
 			reg = <0x6A>;
 		};
        };
+
 
 	i2c@0f {
 		cell-index = <20>;
@@ -272,7 +273,7 @@
 			"MIC BIAS2 External", "ANCLeft Headset Mic";
 
 		qcom,cdc-mclk-gpios = <&pm8226_gpios 1 0>;
-		qcom,cdc-lineout-spkr-gpios = <&msmgpio 23 0>;
+		qcom,cdc-lineout-spkr-gpios = <&msmgpio 12 0>;
 		qcom,cdc-vdd-spkr-gpios = <&msmgpio 24 0>;
 		vdd-earjack-supply = <&pm8226_l15>;
 	};
@@ -354,6 +355,7 @@
 			status = "disable";
 			/* Charger */
 			battery,charger_name = "smb358";
+			battery,vbus_ctrl_gpio = <&msmgpio 64 0x00>;
 			battery,chg_gpio_en = <0>;
 			battery,chg_polarity_en = <0>;
 			battery,chg_gpio_status = <0>;
