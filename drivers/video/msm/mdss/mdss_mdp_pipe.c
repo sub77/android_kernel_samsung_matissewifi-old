@@ -29,6 +29,7 @@ static DEFINE_MUTEX(mdss_mdp_sspp_lock);
 static DEFINE_MUTEX(mdss_mdp_smp_lock);
 
 static int mdss_mdp_pipe_free(struct mdss_mdp_pipe *pipe);
+static int __mdss_mdp_pipe_smp_mmb_is_empty(unsigned long *smp);
 static struct mdss_mdp_pipe *mdss_mdp_pipe_search_by_client_id(
 	struct mdss_data_type *mdata, int client_id);
 static void mdss_mdp_smp_mmb_free(unsigned long *smp, bool write);
@@ -124,6 +125,10 @@ static void mdss_mdp_smp_mmb_free(unsigned long *smp, bool write)
 			      smp, SMP_MB_CNT);
 		bitmap_zero(smp, SMP_MB_CNT);
 	}
+}
+static int __mdss_mdp_pipe_smp_mmb_is_empty(unsigned long *smp)
+{
+ return bitmap_weight(smp, SMP_MB_CNT) == 0;
 }
 
 static void mdss_mdp_smp_set_wm_levels(struct mdss_mdp_pipe *pipe, int mb_cnt)
@@ -335,7 +340,8 @@ static int mdss_mdp_smp_alloc(struct mdss_mdp_pipe *pipe)
 				pipe->smp_map[i].allocated);
 			continue;
 		}
-
+if (__mdss_mdp_pipe_smp_mmb_is_empty(pipe->smp_map[i].reserved))
+continue;
 		mdss_mdp_smp_mmb_amend(pipe->smp_map[i].allocated,
 			pipe->smp_map[i].reserved);
 		cnt += mdss_mdp_smp_mmb_set(pipe->ftch_id + i,
