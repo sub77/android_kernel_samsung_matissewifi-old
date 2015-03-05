@@ -12,7 +12,7 @@
 
 /include/ "msm8226-camera-sensor-mtp-matisse_eur-r02.dtsi"
 /include/ "msm8226-mc96irda.dtsi"
-/* /include/ "dsi_panel_sdc_wxga_video.dtsi" */
+/* /include/ "dsi_panel_sdc_wxga_video.dtsi" ACHTUNG! */
 /include/ "dsi_panel_sharp_720p_video-r01.dtsi"
 &soc {
 	serial@f991f000 {
