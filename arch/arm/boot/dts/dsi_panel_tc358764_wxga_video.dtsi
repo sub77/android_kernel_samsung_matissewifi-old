@@ -27,8 +27,8 @@
 		qcom,mdss-dsi-panel-framerate = <60>;
 		qcom,mdss-dsi-virtual-channel-id = <0>;
 		qcom,mdss-dsi-bpp = <24>;
-		qcom,mdss-dsi-panel-width = <1280>;
-		qcom,mdss-dsi-panel-height = <720>;
+		qcom,mdss-dsi-panel-width = <1024>;
+		qcom,mdss-dsi-panel-height = <768>;
 		qcom,mdss-pan-physical-width-dimension = <228>; /* <Width> real size of panel in mm */
 		qcom,mdss-pan-physical-height-dimension = <149>; /*<Height> real size of panel in mm */
 		qcom,mdss-dsi-lp11-init;
@@ -121,10 +121,10 @@
 		cell-index = <0>;
 		reg = <0xfd922800 0x600>;
 		qcom,mdss-fb-map = <&mdss_fb0>;
-		vddio-supply = <&pm8226_l8>;
 		vdda-supply = <&pm8226_l4>;
+		vddiol8-supply = <&pm8226_l8>;
+		vddio-supply = <&pm8226_l23>;
 		qcom,platform-bist-ctrl = [00 00 b1 ff 00 00];
-		qcom,platform-regulator-settings = [03 01 01 00 20 00 01];
 		qcom,platform-lane-config = [00 00 00 00 00 00 00 01 97
 			00 00 00 00 05 00 00 01 97
 			00 00 00 00 0a 00 00 01 97
@@ -132,9 +132,9 @@
 			00 c0 00 00 00 00 00 01 bb];
 
 		qcom,platform-supply-entry1 {
-			qcom,supply-name = "vddio";
-			qcom,supply-min-voltage = <1800000>;
-			qcom,supply-max-voltage = <1800000>;
+			qcom,supply-name = "vdda";
+			qcom,supply-min-voltage = <1200000>;
+			qcom,supply-max-voltage = <1200000>;
 			qcom,supply-enable-load = <100000>;
 			qcom,supply-disable-load = <100>;
 			qcom,supply-pre-on-sleep = <0>;
@@ -143,13 +143,13 @@
 			qcom,supply-post-off-sleep = <0>;
 		};
 		qcom,platform-supply-entry2 {
-			qcom,supply-name = "vdda";
-			qcom,supply-min-voltage = <1200000>;
-			qcom,supply-max-voltage = <1200000>;
+			qcom,supply-name = "vddiol8";
+			qcom,supply-min-voltage = <1800000>;
+			qcom,supply-max-voltage = <1800000>;
 			qcom,supply-enable-load = <100000>;
 			qcom,supply-disable-load = <100>;
 			qcom,supply-pre-on-sleep = <0>;
-			qcom,supply-post-on-sleep = <20>;
+			qcom,supply-post-on-sleep = <0>;
 			qcom,supply-pre-off-sleep = <0>;
 			qcom,supply-post-off-sleep = <0>;
 		};

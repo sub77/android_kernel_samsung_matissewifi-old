@@ -25,10 +25,10 @@
 		qcom,mdss-dsi-panel-framerate = <60>;
 		qcom,mdss-dsi-virtual-channel-id = <0>;
 		qcom,mdss-dsi-bpp = <24>;
-		qcom,mdss-dsi-panel-width = <800>;
-		qcom,mdss-dsi-panel-height = <1280>;
-		qcom,mdss-pan-physical-width-dimension = <108>; /* <Width> real size of panel in mm */
-		qcom,mdss-pan-physical-height-dimension = <172>; /*<Height> real size of panel in mm */
+		qcom,mdss-dsi-panel-width = <1280>;
+		qcom,mdss-dsi-panel-height = <800>;
+		qcom,mdss-pan-physical-width-dimension = <228>; /* <Width> real size of panel in mm */
+		qcom,mdss-pan-physical-height-dimension = <149>; /*<Height> real size of panel in mm */
 		qcom,mdss-dsi-lp11-init;
 		qcom,mdss-dsi-init-delay-us = <100>;
 		qcom,mdss-dsi-h-front-porch = <16>;
