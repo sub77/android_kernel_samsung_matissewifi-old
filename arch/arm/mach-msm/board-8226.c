@@ -64,6 +64,10 @@
 #include <linux/proc_avc.h>
 #endif
 
+#ifdef CONFIG_KEXEC_HARDBOOT
+#include <asm/kexec.h>
+#endif
+
 #if defined(CONFIG_SEC_MILLET_PROJECT) || defined(CONFIG_SEC_MATISSE_PROJECT) || defined(CONFIG_MACH_S3VE3G_EUR) || defined (CONFIG_MACH_VICTOR3GDSDTV_LTN) || \
     defined(CONFIG_SEC_AFYON_PROJECT) || defined(CONFIG_SEC_VICTOR_PROJECT) || defined(CONFIG_SEC_BERLUTI_PROJECT) || \
     defined(CONFIG_SEC_GNOTE_PROJECT) || defined(CONFIG_SEC_ATLANTIC_PROJECT) || defined(CONFIG_SEC_DEGAS_PROJECT) || \
@@ -117,19 +121,27 @@ static struct memtype_reserve msm8226_reserve_table[] __initdata = {
 
 #ifdef CONFIG_ANDROID_PERSISTENT_RAM
 /* CONFIG_SEC_DEBUG reserving memory for persistent RAM*/
-#define RAMCONSOLE_PHYS_ADDR 0x1FB00000
+ #define RAMCONSOLE_PHYS_ADDR 0x1FA00000
 static struct persistent_ram_descriptor per_ram_descs[] __initdata = {
-       {
-               .name = "ram_console",
-               .size = SZ_1M,
-       }
+    {
+        .name = "ram_console",
+#ifdef CONFIG_KEXEC_HARDBOOT
+        .size = KEXEC_HB_PAGE_ADDR - RAMCONSOLE_PHYS_ADDR,
+    },
+    {
+        .name = "kexec_hb_page",
+        .size = SZ_1M - (KEXEC_HB_PAGE_ADDR - RAMCONSOLE_PHYS_ADDR),
+#else
+        .size = SZ_1M,
+#endif
+    }
 };
 
 static struct persistent_ram per_ram __initdata = {
-       .descs = per_ram_descs,
-       .num_descs = ARRAY_SIZE(per_ram_descs),
-       .start = RAMCONSOLE_PHYS_ADDR,
-       .size = SZ_1M
+    .descs = per_ram_descs,
+    .num_descs = ARRAY_SIZE(per_ram_descs),
+    .start = RAMCONSOLE_PHYS_ADDR,
+    .size = SZ_1M
 };
 #endif
 static int msm8226_paddr_to_memtype(unsigned int paddr)
