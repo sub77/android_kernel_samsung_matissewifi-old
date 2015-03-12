@@ -78,10 +78,10 @@
 		qcom,mdss-mdp = <&mdss_mdp>;
 	};
 
-	qcom,mdss_wb_panel {
-		compatible = "qcom,mdss_wb";
-		qcom,mdss_pan_res = <1280 720>;
-		qcom,mdss_pan_bpp = <24>;
-		qcom,mdss-fb-map = <&mdss_fb1>;
-	};
+//	qcom,mdss_wb_panel {
+//		compatible = "qcom,mdss_wb";
+//		qcom,mdss_pan_res = <1280 720>;
+//		qcom,mdss_pan_bpp = <24>;
+//		qcom,mdss-fb-map = <&mdss_fb1>;
+//	};
 };
