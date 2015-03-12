@@ -21,10 +21,10 @@
 		qcom,mdss-dsi-virtual-channel-id = <0>;
 		qcom,mdss-dsi-stream = <0>;
 		qcom,cont-splash-enabled = <1>;
-		qcom,mdss-dsi-panel-width = <1280>;
-		qcom,mdss-dsi-panel-height = <800>;
-		qcom,mdss-pan-physical-width-dimension = <228>; /* <Width> real size of panel in mm */
-		qcom,mdss-pan-physical-height-dimension = <149>; /*<Height> real size of panel in mm */
+		qcom,mdss-dsi-panel-width = <720>;
+		qcom,mdss-dsi-panel-height = <1280>;
+		qcom,mdss-pan-physical-width-dimension = <69>; /* <Width> real size of panel in mm */
+		qcom,mdss-pan-physical-height-dimension = <124>; /*<Height> real size of panel in mm */
 		qcom,mdss-dsi-h-front-porch = <192>;
 		qcom,mdss-dsi-h-back-porch = <30>;
 		qcom,mdss-dsi-h-front-porch-jdi = <134>;

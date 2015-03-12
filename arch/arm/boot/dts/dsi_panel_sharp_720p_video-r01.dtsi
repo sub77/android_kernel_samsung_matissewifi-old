@@ -20,8 +20,8 @@
 		qcom,mdss-dsi-virtual-channel-id = <0>;
 		qcom,mdss-dsi-stream = <0>;
 		qcom,cont-splash-enabled = <1>;
-		qcom,mdss-dsi-panel-width = <1280>;
-		qcom,mdss-dsi-panel-height = <800>;
+		qcom,mdss-dsi-panel-width = <720>;
+		qcom,mdss-dsi-panel-height = <1280>;
 		qcom,mdss-pan-physical-width-dimension = <69>; /* <Width> real size of panel in mm */
 		qcom,mdss-pan-physical-height-dimension = <124>; /*<Height> real size of panel in mm */
 		qcom,mdss-dsi-h-front-porch = <192>;
@@ -43,8 +43,8 @@
 		qcom,mdss-dsi-border-color = <0>;
 		qcom,mdss-dsi-mdp-trigger = <0x0>;
 		qcom,mdss-dsi-dma-trigger = <0x04>;
-		qcom,mdss-dsi-bl-min-level = <10>;
-		qcom,mdss-dsi-bl-max-level = <120>;
+		qcom,mdss-dsi-bl-min-level = <30>;
+		qcom,mdss-dsi-bl-max-level = <255>;
 		qcom,mdss-dsi-bl-pmic-control-type = "bl_ctrl_dcs";
 		qcom,mdss-pan-dsi-t-clk-pre = <0x1b>;
 		qcom,mdss-pan-dsi-t-clk-post = <0x04>;
@@ -62,47 +62,76 @@
 		qcom,mdss-dsi-panel-clock-rate = <462000000>;
 
 
-		qcom,mdss-dsi-on-command = [
-/*TC358764/65XBG DSI Basic Parameters*/
-			29 01 00 00 00 00 06 3C 01 06 00 05 00
-			29 01 00 00 00 00 06 14 01 04 00 00 00
-			29 01 00 00 00 00 06 64 01 04 00 00 00
-			29 01 00 00 00 00 06 68 01 04 00 00 00
-			29 01 00 00 00 00 06 6C 01 04 00 00 00
-			29 01 00 00 00 00 06 70 01 04 00 00 00
-			29 01 00 00 00 00 06 34 01 1F 00 00 00
-			29 01 00 00 00 00 06 10 02 1F 00 00 00
-			29 01 00 00 00 00 06 04 01 01 00 00 00
-			29 01 00 00 00 00 06 04 02 01 00 00 00
+		qcom,mdss-dsi-sharp-on-command = [
+			39 01 00 00 01 00 03 F0 5A 5A
+			39 01 00 00 01 00 03 E4 00 04 /* Bus delay on */
+			39 01 00 00 01 00 03 F0 A5 A5
+			39 01 00 00 01 00 02 36 C0
+			39 01 00 00 01 00 02 53 26
+			39 01 00 00 10 00 02 51 5f
 
-/*TC358764/65XBG Timing and mode setting*/
-			29 01 00 00 00 00 06 50 04 20 01 F0 03
-			29 01 00 00 00 00 06 54 04 02 00 30 00
-			29 01 00 00 00 00 06 58 04 20 03 30 00
-			29 01 00 00 00 00 06 5C 04 02 00 40 00
-			29 01 00 00 00 00 06 60 04 00 05 20 00
+			05 01 00 00 78 00 02 11 00 /* Sleep out */
+			39 01 00 00 01 00 03 F0 5A 5A
+			39 01 00 00 01 00 04 C3 BB 00 21 /* Set PWM frequency to higher than 22KHz */
+			39 01 00 00 01 00 05 BA 04 02 02 EA
 
-			29 01 00 00 00 00 06 64 04 01 00 00 00
-			29 01 00 00 02 00 06 A0 04 06 80 44 00
-			29 01 00 00 02 00 06 A0 04 06 80 04 00
-			29 01 00 00 02 00 06 04 05 04 00 00 00
-/*TC358764/65XBG LVDS Color mapping setting	*/
+			39 01 00 00 01 00 46
+				CA 14 F3 19 21 2A 32 39
+				44 4D 5B 68 78 87 94 A3
+				AD BC C5 D1 D8 DF F5 F5
+				20 F3 23 29 30 37 3D 46
+				4F 5C 68 78 87 94 A3 AD
+				BC C5 D0 D7 DE F4 F5 19
+				F3 1E 22 2A 32 38 42 4B
+				59 65 76 85 92 A2 AC BB
+				C3 CF D6 DD ED EC
 
-			29 01 00 00 00 00 06 80 04 00 01 02 03
-			29 01 00 00 00 00 06 84 04 04 07 05 08
-			29 01 00 00 00 00 06 88 04 09 0A 0E 0F
-			29 01 00 00 00 00 06 8C 04 0B 0C 0D 10
-			29 01 00 00 00 00 06 90 04 16 17 11 12
-			29 01 00 00 00 00 06 94 04 13 14 15 1B
-			29 01 00 00 00 00 06 98 04 18 19 1A 06
-/*TC358764/65XBG LVDS enable*/
-			29 01 00 00 00 00 06 9C 04 01 00 00 00
+			39 01 00 00 01 00 46
+				CB 25 F3 29 31 3A 41 47
+				52 59 67 72 82 8F 9C A9
+				B3 C1 C9 D4 DB E1 F6 F5
+				30 F3 33 39 40 46 4B 54
+				5B 68 72 82 8F 9C A9 B3
+				C1 C9 D3 DA E0 F5 F5 2A
+				F3 2E 32 3A 41 46 50 57
+				65 6F 80 8D 9A A8 B2 C0
+				C7 D2 D9 DF EE ED
+
+			39 01 00 00 01 00 03 F0 A5 A5
+			05 01 00 00 0A 00 02 29 00
+	/* Display On */
+					];
+		qcom,mdss-dsi-jdi-on-command = [
+			39 01 00 00 78 00 02 11 00
+			39 01 00 00 01 00 02 B0 00
+			39 01 00 00 01 00 1F C9 0C 19 1C 22 32 3E 48 57 3A 43 4F 61 69 77 7F 0C 19 1C 22 32 3E 48 57 3A 43 4F 61 69 77 7F
+			39 01 00 00 01 00 14 CA 01 00 00 00 00 DF 00 00 FF 00 FE C9 00 00 00 00 00 FC 00
+			39 01 00 00 01 00 07 BC 01 38 04 04 00 00
+			39 01 00 00 14 00 02 36 00
+			39 01 00 00 01 00 02 53 26
+			39 01 00 00 10 00 02 51 5f
+			39 01 00 00 0A 00 02 29 00
+			39 01 00 00 01 00 02 B0 00
 			];
-		qcom,mdss-dsi-on-command-state = "dsi_lp_mode";
+		samsung,panel-manufacture-id-read-cmds = [06 01 00 00 00 00 01 da 01
+							06 01 00 00 00 00 01 db 01
+							06 01 00 00 00 00 01 dc 01];
+		qcom,mdss-dsi-on-command-state = "dsi_hs_mode";
+		qcom,mdss-dsi-off-command = [05 01 00 00 32 00 02 28 00
+					05 01 00 00 78 00 02 10 00];
+		qcom,mdss-dsi-jdi-off-command = [05 01 00 00 22 00 02 28 00
+					05 01 00 00 78 00 02 10 00];
 		qcom,mdss-dsi-off-command-state = "dsi_hs_mode";
-		qcom,mdss-dsi-off-command = [29 01 00 00 01 00 06 A0 04 01 00 00 00
-			29 01 00 00 00 00 06 9C 04 00 00 00 00];
 	};
+
+
+		mdss_fb0: qcom,mdss_fb_primary {
+                        cell-index = <0>;
+                        compatible = "qcom,mdss-fb";
+                        qcom,memory-reservation-type = "EBI1";
+                        qcom,memory-reservation-size = <0x800000>;
+                        qcom,memblock-reserve = <0x03200000 0xFA0000>;
+                };
 };
 &soc {
 	mdss_dsi0: qcom,mdss_dsi@fd922800 {
@@ -143,7 +172,7 @@
 			qcom,supply-enable-load = <100000>;
 			qcom,supply-disable-load = <100>;
 			qcom,supply-pre-on-sleep = <0>;
-			qcom,supply-post-on-sleep = <0>;
+			qcom,supply-post-on-sleep = <20>;
 			qcom,supply-pre-off-sleep = <0>;
 			qcom,supply-post-off-sleep = <0>;
 		};

@@ -1744,6 +1744,10 @@ void __init msm8226_init_gpiomux(void)
 #ifdef CONFIG_IR_REMOCON_MC96FR116
 	msm_gpiomux_install(irled_i2c_scl_config, ARRAY_SIZE(irled_i2c_scl_config));
 #endif
+
+#ifdef CONFIG_KEXEC_HARDBOOT
+	memblock_remove(KEXEC_HB_PAGE_ADDR, SZ_4K);
+#endif
 }
 
 #ifdef CONFIG_WCNSS_IRIS_REGISTER_DUMP
