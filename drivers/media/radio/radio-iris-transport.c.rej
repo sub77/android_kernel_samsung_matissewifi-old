@@ -1,0 +1,11 @@
+--- drivers/media/radio/radio-iris-transport.c
++++ drivers/media/radio/radio-iris-transport.c
+@@ -197,7 +197,7 @@
+ 	hs.fm_channel = 0;
+ }
+ 
+-static int radio_hci_smd_init(void)
++static int __init radio_hci_smd_init(void)
+ {
+ 	return radio_hci_smd_register_dev(&hs);
+ }
