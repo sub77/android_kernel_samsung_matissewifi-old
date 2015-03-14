@@ -1,0 +1,35 @@
+--- drivers/video/msm/mdss/mdss_mdp_overlay.c
++++ drivers/video/msm/mdss/mdss_mdp_overlay.c
+@@ -1539,22 +1569,28 @@
+ 	}
+ 
+ 	buf->p[0].addr += offset;
+-	buf->p[0].len = fbi->fix.smem_len - offset;
++	if (image_size)
++		buf->p[0].len = image_size;
++	else
++		buf->p[0].len = fbi->fix.smem_len - offset;
+ 	buf->num_planes = 1;
+ 	pipe->has_buf = 1;
+ 	mdss_mdp_pipe_unmap(pipe);
+ 
+ 	if (fbi->var.xres > MAX_MIXER_WIDTH || mfd->split_display) {
+ 		ret = mdss_mdp_overlay_get_fb_pipe(mfd, &pipe,
+-						   MDSS_MDP_MIXER_MUX_RIGHT);
++					   MDSS_MDP_MIXER_MUX_RIGHT, req);
+ 		if (ret) {
+ 			pr_err("unable to allocate right base pipe\n");
+-			goto pan_display_error;
++			goto attach_err;
+ 		}
+ 		if (mdss_mdp_pipe_map(pipe)) {
+ 			pr_err("unable to map right base pipe\n");
+-			goto pan_display_error;
++			goto attach_err;
+ 		}
++		if (pipe_ndx)
++			pipe_ndx[1] = pipe->ndx;
++
+ 		pipe->back_buf = *buf;
+ 		pipe->has_buf = 1;
+ 		mdss_mdp_pipe_unmap(pipe);
