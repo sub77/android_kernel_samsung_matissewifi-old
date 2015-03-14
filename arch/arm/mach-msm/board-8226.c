@@ -38,6 +38,9 @@
 #ifdef CONFIG_ION_MSM
 #include <mach/ion.h>
 #endif
+#ifdef CONFIG_KEXEC_HARDBOOT
+#include <linux/memblock.h>
+#endif
 #ifdef CONFIG_SEC_DEBUG
 #include <mach/sec_debug.h>
 #endif
@@ -62,6 +65,10 @@
 
 #ifdef CONFIG_PROC_AVC
 #include <linux/proc_avc.h>
+#endif
+
+#ifdef CONFIG_KEXEC_HARDBOOT
+#include <asm/kexec.h>
 #endif
 
 #if defined(CONFIG_SEC_MILLET_PROJECT) || defined(CONFIG_SEC_MATISSE_PROJECT) || defined(CONFIG_MACH_S3VE3G_EUR) || defined (CONFIG_MACH_VICTOR3GDSDTV_LTN) || \
@@ -117,19 +124,27 @@ static struct memtype_reserve msm8226_reserve_table[] __initdata = {
 
 #ifdef CONFIG_ANDROID_PERSISTENT_RAM
 /* CONFIG_SEC_DEBUG reserving memory for persistent RAM*/
-#define RAMCONSOLE_PHYS_ADDR 0x1FB00000
+ #define RAMCONSOLE_PHYS_ADDR 0x1FA00000
 static struct persistent_ram_descriptor per_ram_descs[] __initdata = {
-       {
-               .name = "ram_console",
-               .size = SZ_1M,
-       }
+    {
+        .name = "ram_console",
+#ifdef CONFIG_KEXEC_HARDBOOT
+        .size = KEXEC_HB_PAGE_ADDR - RAMCONSOLE_PHYS_ADDR,
+    },
+    {
+        .name = "kexec_hb_page",
+        .size = SZ_1M - (KEXEC_HB_PAGE_ADDR - RAMCONSOLE_PHYS_ADDR),
+#else
+        .size = SZ_1M,
+#endif
+    }
 };
 
 static struct persistent_ram per_ram __initdata = {
-       .descs = per_ram_descs,
-       .num_descs = ARRAY_SIZE(per_ram_descs),
-       .start = RAMCONSOLE_PHYS_ADDR,
-       .size = SZ_1M
+    .descs = per_ram_descs,
+    .num_descs = ARRAY_SIZE(per_ram_descs),
+    .start = RAMCONSOLE_PHYS_ADDR,
+    .size = SZ_1M
 };
 #endif
 static int msm8226_paddr_to_memtype(unsigned int paddr)
@@ -168,6 +183,17 @@ static void __init msm8226_early_memory(void)
 
 static void __init msm8226_reserve(void)
 {
+#ifdef CONFIG_KEXEC_HARDBOOT
+	// Reserve space for hardboot page, just before the ram_console
+	//struct membank* bank = &meminfo.bank[0];
+	//phys_addr_t start = bank->start + bank->size - SZ_1M - 0x00300000;
+	phys_addr_t start = KEXEC_HB_PAGE_ADDR;
+	int ret = memblock_remove(start, SZ_1M);
+	if(!ret)
+		pr_info("Hardboot page reserved at 0x%X\n", start);
+	else
+		pr_err("Failed to reserve space for hardboot page at 0x%X!\n", start);
+#endif
 	reserve_info = &msm8226_reserve_info;
 	of_scan_flat_dt(dt_scan_for_memory_reserve, msm8226_reserve_table);
 	msm_reserve();
