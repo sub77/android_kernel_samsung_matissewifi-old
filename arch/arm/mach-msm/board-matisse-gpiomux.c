@@ -77,15 +77,14 @@ static struct msm_gpiomux_config msm_hsic_configs[] = {
 		.gpio = gpio_num, \
 		.settings ={[GPIOMUX_SUSPENDED] = &nc_cfg,}\
 }
-/*#define MAKE_NC_CONFIG_INIT_SLEEP(gpio_num) { \
-*		.gpio = gpio_num, \
-*		.settings ={\
-*			[GPIOMUX_ACTIVE] = &nc_cfg,\
-*			[GPIOMUX_SUSPENDED] = &nc_cfg,\
-*		}\
-*
-*}
-*/
+#define MAKE_NC_CONFIG_INIT_SLEEP(gpio_num) { \
+		.gpio = gpio_num, \
+		.settings ={\
+			[GPIOMUX_ACTIVE] = &nc_cfg,\
+			[GPIOMUX_SUSPENDED] = &nc_cfg,\
+		}\
+}
+
 static struct gpiomux_setting nc_cfg = {
         .func = GPIOMUX_FUNC_GPIO,
         .drv = GPIOMUX_DRV_2MA,
