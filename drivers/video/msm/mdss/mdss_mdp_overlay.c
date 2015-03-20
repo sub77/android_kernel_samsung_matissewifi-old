@@ -1681,6 +1681,9 @@ static void mdss_mdp_overlay_pan_display(struct msm_fb_data_type *mfd,
 		if (pipe_ndx)
 			pipe_ndx[1] = pipe->ndx;
 
+ 		pipe->back_buf = *buf;
+ 		pipe->has_buf = 1;
+ 		mdss_mdp_pipe_unmap(pipe);
 		pipe->back_buf = *buf;
 		mdss_mdp_pipe_unmap(pipe);
 	}
