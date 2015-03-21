@@ -1,0 +1,11 @@
+--- drivers/video/msm/mdss/mdss_fb.c
++++ drivers/video/msm/mdss/mdss_fb.c
+@@ -1625,7 +1682,7 @@
+ 		(var->yoffset / info->fix.ypanstep) * info->fix.ypanstep;
+ 
+ 	if (mfd->mdp.dma_fnc)
+-		mfd->mdp.dma_fnc(mfd);
++		mfd->mdp.dma_fnc(mfd, NULL, 0, NULL);
+ 	else
+ 		pr_warn("dma function not set for panel type=%d\n",
+ 				mfd->panel.type);
