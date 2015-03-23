@@ -1,0 +1,157 @@
+--- a/lib/Kconfig.debug
++++ b/lib/Kconfig.debug
+@@ -133,7 +135,7 @@
+ 
+ config DETECT_SOFTLOCKUP
+ 	bool "Detect Soft Lockups"
+-	depends on DEBUG_KERNEL && !S390
++	depends on !S390
+ 	default y
+ 	help
+ 	  Say Y here to enable the kernel to detect "soft lockups",
+@@ -187,7 +189,7 @@
+ 
+ config DEBUG_SLAB
+ 	bool "Debug slab memory allocations"
+-	depends on DEBUG_KERNEL && SLAB
++	depends on SLAB
+ 	help
+ 	  Say Y here to have the kernel do limited verification on memory
+ 	  allocation as well as poisoning memory on free to catch use of freed
+@@ -197,35 +199,9 @@
+ 	bool "Memory leak debugging"
+ 	depends on DEBUG_SLAB
+ 
+-config SLUB_DEBUG_ON
+-	bool "SLUB debugging on by default"
+-	depends on SLUB && SLUB_DEBUG
+-	default n
+-	help
+-	  Boot with debugging on by default. SLUB boots by default with
+-	  the runtime debug capabilities switched off. Enabling this is
+-	  equivalent to specifying the "slub_debug" parameter on boot.
+-	  There is no support for more fine grained debug control like
+-	  possible with slub_debug=xxx. SLUB debugging may be switched
+-	  off in a kernel built with CONFIG_SLUB_DEBUG_ON by specifying
+-	  "slub_debug=-".
+-
+-config SLUB_STATS
+-	default n
+-	bool "Enable SLUB performance statistics"
+-	depends on SLUB && SLUB_DEBUG && SYSFS
+-	help
+-	  SLUB statistics are useful to debug SLUBs allocation behavior in
+-	  order find ways to optimize the allocator. This should never be
+-	  enabled for production use since keeping statistics slows down
+-	  the allocator by a few percentage points. The slabinfo command
+-	  supports the determination of the most active slabs to figure
+-	  out which slabs are relevant to a particular load.
+-	  Try running: slabinfo -DA
+-
+ config DEBUG_PREEMPT
+ 	bool "Debug preemptible kernel"
+-	depends on DEBUG_KERNEL && PREEMPT && (TRACE_IRQFLAGS_SUPPORT || PPC64)
++	depends on PREEMPT && (TRACE_IRQFLAGS_SUPPORT || PPC64)
+ 	default y
+ 	help
+ 	  If you say Y here then the kernel will use a debug variant of the
+@@ -247,13 +223,12 @@
+ 
+ config RT_MUTEX_TESTER
+ 	bool "Built-in scriptable tester for rt-mutexes"
+-	depends on DEBUG_KERNEL && RT_MUTEXES
++	depends on RT_MUTEXES
+ 	help
+ 	  This option enables a rt-mutex tester.
+ 
+ config DEBUG_SPINLOCK
+ 	bool "Spinlock and rw-lock debugging: basic checks"
+-	depends on DEBUG_KERNEL
+ 	help
+ 	  Say Y here and build SMP to catch missing spinlock initialization
+ 	  and certain other kinds of spinlock errors commonly made.  This is
+@@ -345,14 +319,13 @@
+ 
+ config DEBUG_LOCKDEP
+ 	bool "Lock dependency engine debugging"
+-	depends on DEBUG_KERNEL && LOCKDEP
++	depends on LOCKDEP
+ 	help
+ 	  If you say Y here, the lock dependency engine will do
+ 	  additional runtime checks to debug itself, at the price
+ 	  of more runtime overhead.
+ 
+ config TRACE_IRQFLAGS
+-	depends on DEBUG_KERNEL
+ 	bool
+ 	default y
+ 	depends on TRACE_IRQFLAGS_SUPPORT
+@@ -360,14 +333,12 @@
+ 
+ config DEBUG_SPINLOCK_SLEEP
+ 	bool "Spinlock debugging: sleep-inside-spinlock checking"
+-	depends on DEBUG_KERNEL
+ 	help
+ 	  If you say Y here, various routines which may sleep will become very
+ 	  noisy if they are called with a spinlock held.
+ 
+ config DEBUG_LOCKING_API_SELFTESTS
+ 	bool "Locking API boot-time self-tests"
+-	depends on DEBUG_KERNEL
+ 	help
+ 	  Say Y here if you want the kernel to run a short self-test during
+ 	  bootup. The self-test checks whether common types of locking bugs
+@@ -378,25 +349,23 @@
+ 
+ config STACKTRACE
+ 	bool
+-	depends on DEBUG_KERNEL
+ 	depends on STACKTRACE_SUPPORT
+ 
+ config DEBUG_KOBJECT
+ 	bool "kobject debugging"
+-	depends on DEBUG_KERNEL
+ 	help
+ 	  If you say Y here, some extra kobject debugging messages will be sent
+ 	  to the syslog.
+ 
+ config DEBUG_HIGHMEM
+ 	bool "Highmem debugging"
+-	depends on DEBUG_KERNEL && HIGHMEM
++	depends on HIGHMEM
+ 	help
+ 	  This options enables addition error checking for high memory systems.
+ 	  Disable for production systems.
+ 
+ config DEBUG_BUGVERBOSE
+-	bool "Verbose BUG() reporting (adds 70K)" if DEBUG_KERNEL && EMBEDDED
++	bool "Verbose BUG() reporting (adds 70K)" if EMBEDDED
+ 	depends on BUG
+ 	depends on ARM || AVR32 || M32R || M68K || SPARC32 || SPARC64 || \
+ 		   FRV || SUPERH || GENERIC_BUG || BLACKFIN || MN10300
+@@ -454,8 +418,7 @@
+ 
+ config FRAME_POINTER
+ 	bool "Compile the kernel with frame pointers"
+-	depends on DEBUG_KERNEL && \
+-		(X86 || CRIS || M68K || M68KNOMMU || FRV || UML || S390 || \
++	depends on (X86 || CRIS || M68K || M68KNOMMU || FRV || UML || S390 || \
+ 		 AVR32 || SUPERH || BLACKFIN || MN10300)
+ 	default y if DEBUG_INFO && UML
+ 	help
+@@ -484,7 +447,6 @@
+ 
+ config RCU_TORTURE_TEST
+ 	tristate "torture tests for RCU"
+-	depends on DEBUG_KERNEL
+ 	depends on m
+ 	default n
+ 	help
+@@ -519,7 +479,6 @@
+ 
+ config LKDTM
+ 	tristate "Linux Kernel Dump Test Tool Module"
+-	depends on DEBUG_KERNEL
+ 	depends on KPROBES
+ 	depends on BLOCK
+ 	default n
